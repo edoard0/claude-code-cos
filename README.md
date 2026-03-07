@@ -1,20 +1,20 @@
-# How to Build Your Own AI Chief of Staff
+# How to Build A Claude Code Chief of Staff
 
 ### A step-by-step architecture guide for non-programmers
 
 **Version:** 1.0  
 **Last updated:** March 6, 2026  
-**Author:** [Jim Prosser](https://www.linkedin.com/in/jimprosser/) · [Tamalpais Strategies](https://tamstrat.com)
+**Author:** [Jim Prosser](https://www.x.com/jimprosser/) · [Tamalpais Strategies](https://tamstrat.com)
 
 ---
 
-> This guide accompanies my piece ["I Built My Own Automated Chief of Staff. It Runs on Claude Code."](link) If you haven't read that yet, start there for the what and why. This document is the how.
+> This guide accompanies my piece ["My chief of staff, Claude Code"](https://x.com/jimprosser/status/2029699731539255640) If you haven't read that yet, start there for the what and why. This document is the how.
 
 ---
 
 After publishing that piece, a lot of people asked for the how-to. This is that guide.
 
-A few caveats up front. This guide is detailed enough to be genuinely useful, but it's not a copy-paste tutorial. Every system like this needs to be contoured to your operation — your tools, your workflows, your judgment about what should stay human. What I'm giving you is the architecture and the design thinking. Claude Code handles the implementation once you give it clear instructions.
+A few caveats up front. Every system like this needs to be contoured to your operation — your tools, your workflows, your judgment about what should stay human. What I'm giving you is the architecture and the design thinking. Claude Code handles the implementation once you give it clear instructions.
 
 You don't need to be a programmer. I'm not one. But you do need to be a clear thinker about systems: what talks to what, what each piece is responsible for, and where the boundaries are. That's the real skill here.
 

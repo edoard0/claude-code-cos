@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js*)",
+      "Bash(node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js*)",
+      "Bash(node /Users/edoardo.romani/claudeCOS/scripts/travel-time.js*)",
+      "Bash(node /Users/edoardo.romani/claudeCOS/travel-time.js*)",
+      "Bash(cat /Users/edoardo.romani/claudeCOS/*)",
+      "Bash(cat ~/.config/cos/*)",
+      "Bash(date*)",
+      "Bash(for i in*)",
+      "Bash(mkdir -p*)",
+      "Bash(claude -p*)",
+      "Read(/Users/edoardo.romani/claudeCOS/**)",
+      "Read(~/.config/cos/**)",
+      "Write(/Users/edoardo.romani/claudeCOS/**)",
+      "Write(~/.config/cos/**)"
+    ]
+  }
+}

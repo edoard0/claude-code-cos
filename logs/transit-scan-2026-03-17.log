@@ -1,0 +1,70 @@
+[Tue Mar 17 19:29:13 GMT 2026] Starting transit scan
+All 7 days scanned. No qualifying physical-location events found across the window.
+
+```
+Transit scan — 2026-03-17 (window: +1 to +7 days)
+Days scanned: 7
+Total events scanned: 4
+Qualifying events (physical location): 0
+Transit blocks created: 0
+Skipped (virtual/office/under 5 min): 4
+  - 2026-03-19: "Enchant Venture Studio and Edoardo Romani" — virtual (Google Meet)
+  - 2026-03-19: "Interview with Scope AI" — virtual (Google Meet)
+  - 2026-03-20: "Ivan and Edoardo Romani" — virtual (Google Meet)
+  - 2026-03-22: "Flight to LPA (BA 2712)" — no location field
+Skipped (overlap): 0
+Warnings: none
+```
+[Tue Mar 17 19:29:45 GMT 2026] Transit scan completed successfully
+[Tue Mar 17 19:56:22 GMT 2026] Starting transit scan
+**Transit scan — 2026-03-17 (window: +1 to +7 days)**
+
+```
+Days scanned: 7
+Total events scanned: 4
+Qualifying events (physical location): 0
+Transit blocks created: 0
+Skipped (virtual/office/under 5 min): 3
+  - 2026-03-19: "Enchant Venture Studio and Edoardo Romani" — Google Meet
+  - 2026-03-19: "Interview with Scope AI" — Google Meet
+  - 2026-03-20: "Ivan and Edoardo Romani" — Google Meet
+Skipped (no inferable location): 1
+  - 2026-03-22: "Flight to LPA (BA 2712)" — departure airport not found in title or description; only destination (LPA) present, no route format (e.g. "LGW 12:25 - LPA 16:55")
+Skipped (overlap): 0
+Warnings:
+  - 2026-03-22 "Flight to LPA": if this departs from a London airport, add the departure IATA code to the event title or description (e.g. "LGW 12:25 - LPA 16:55") so the transit scanner can create a departure block automatically.
+```
+[Tue Mar 17 19:57:31 GMT 2026] Transit scan completed successfully
+[Tue Mar 17 20:01:04 GMT 2026] Starting transit scan
+Transit block created. Post-event block skipped — departing flight, user is in Gran Canaria after 16:55; no return transit in London needed.
+
+---
+
+```
+Transit scan — 2026-03-17 (window: +1 to +7 days)
+Days scanned: 7
+Total events scanned: 4
+Qualifying events (physical location): 1
+Transit blocks created: 1
+Skipped (virtual/office/under 5 min): 3
+Skipped (overlap): 0
+Warnings:
+  - 2026-03-22 "Flight to LPA (BA 2712)": departure airport unknown, used 60-min fallback.
+    Update calendar event with departure airport code for exact transit time.
+  - 2026-03-22 post-event block skipped: departing flight — no return transit applicable.
+```
+[Tue Mar 17 20:02:25 GMT 2026] Transit scan completed successfully
+[Tue Mar 17 20:04:42 GMT 2026] Starting transit scan
+Both blocks created. Summary:
+
+```
+Transit scan — 2026-03-17 (window: +1 to +7 days)
+Days scanned: 7
+Total events scanned: 4
+Qualifying events (physical location): 1 (flight)
+Transit blocks created: 2
+Skipped (virtual/office/under 5 min): 3 (Mar 19×2, Mar 20×1 — all Google Meet)
+Skipped (overlap): 0
+Warnings: BA 2712 departure airport not identified in event — transit block uses 60 min default. Add airport code (e.g. LGW) to event title/description for exact times.
+```
+[Tue Mar 17 20:05:51 GMT 2026] Transit scan completed successfully

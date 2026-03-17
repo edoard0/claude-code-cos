@@ -1,0 +1,25 @@
+[Tue Mar 17 18:56:43 GMT 2026] Starting inbox scan
+**Run aborted — Gmail MCP not available.**
+
+The `mcp__claude_ai_Gmail__*` tools aren't connected in this session. They're only loaded when the scan is launched via the shell script:
+
+```bash
+bash /Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh
+```
+
+That script invokes `claude` with an explicit `--allowedTools` list that includes the Gmail MCP server. Running the spec prompt directly (as happened here) doesn't load that MCP server.
+
+The state file has been written to `~/.config/cos/last-inbox-scan` and the digest skeleton saved to `digests/2026-03-17.md`. Next time the shell script runs, it will scan from this timestamp forward.
+[Tue Mar 17 18:57:42 GMT 2026] Inbox scan completed successfully
+[Tue Mar 17 19:10:49 GMT 2026] Starting inbox scan
+Done. Digest written to `/Users/edoardo.romani/claudeCOS/digests/2026-03-17.md`. State file updated.
+
+**Summary:**
+- 14 results from Gmail search (11 received, 3 your own sent — skipped)
+- Most were calendar automation (acceptances, reschedule proposals, invite notifications) or threads you already replied to
+- **No P1/P2/P3 items** — inbox is clear
+- 2 P4 items: a Dialectica cybersecurity paid survey invite, and a CoffeeSpace app notification from Alexander Dwyer
+- **No drafts created**
+
+**Thursday 19 March looks busy:** Enchant call at 11:30 GMT, then ScopeAI interview at 12:30 GMT.
+[Tue Mar 17 19:13:35 GMT 2026] Inbox scan completed successfully

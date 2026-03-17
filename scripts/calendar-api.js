@@ -1,0 +1,228 @@
+#!/usr/bin/env node
+// Google Calendar API wrapper for COS transit scanner.
+// No npm dependencies — Node.js built-ins only.
+//
+// Usage:
+//   node calendar-api.js list-calendars
+//   node calendar-api.js list-events <calendarId> <dateISO>        # e.g. 2026-03-18
+//   node calendar-api.js create-event <calendarId> <eventJSON>
+
+const https = require('https');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const CREDENTIALS_PATH = path.join(os.homedir(), '.config', 'cos', 'gmail-credentials.json');
+const TOKEN_PATH = path.join(os.homedir(), '.config', 'cos', 'gmail-token.json');
+
+// ── Token management ────────────────────────────────────────────────────────
+
+function loadToken() {
+  return JSON.parse(fs.readFileSync(TOKEN_PATH, 'utf8'));
+}
+
+function saveToken(token) {
+  fs.writeFileSync(TOKEN_PATH, JSON.stringify(token, null, 2));
+  fs.chmodSync(TOKEN_PATH, 0o600);
+}
+
+function isExpired(token) {
+  const expiresAt = (token.obtained_at || 0) + (token.expires_in || 3600) * 1000;
+  return Date.now() > expiresAt - 5 * 60 * 1000;
+}
+
+async function refreshAccessToken(token) {
+  const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
+  const { client_id, client_secret } = credentials.installed || credentials.web;
+
+  const body = new URLSearchParams({
+    client_id,
+    client_secret,
+    refresh_token: token.refresh_token,
+    grant_type: 'refresh_token',
+  }).toString();
+
+  const data = await post('oauth2.googleapis.com', '/token', body, {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  });
+
+  const newToken = { ...token, ...data, obtained_at: Date.now() };
+  saveToken(newToken);
+  return newToken;
+}
+
+async function getAccessToken() {
+  let token = loadToken();
+  if (isExpired(token)) {
+    token = await refreshAccessToken(token);
+  }
+  return token.access_token;
+}
+
+// ── HTTP helpers ─────────────────────────────────────────────────────────────
+
+function request(method, hostname, reqPath, headers, body) {
+  return new Promise((resolve, reject) => {
+    const options = { method, hostname, path: reqPath, headers };
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); }
+        catch { resolve(data); }
+      });
+    });
+    req.on('error', reject);
+    if (body) req.write(body);
+    req.end();
+  });
+}
+
+function get(reqPath, accessToken) {
+  return request('GET', 'www.googleapis.com', reqPath, {
+    Authorization: `Bearer ${accessToken}`,
+  });
+}
+
+function post(hostname, reqPath, body, extraHeaders = {}) {
+  const buf = Buffer.from(body);
+  return request('POST', hostname, reqPath, {
+    'Content-Length': buf.length,
+    ...extraHeaders,
+  }, buf);
+}
+
+function apiPost(reqPath, body, accessToken) {
+  const buf = Buffer.from(JSON.stringify(body));
+  return request('POST', 'www.googleapis.com', reqPath, {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'Content-Length': buf.length,
+  }, buf);
+}
+
+// ── Calendar operations ───────────────────────────────────────────────────────
+
+async function listCalendars() {
+  const accessToken = await getAccessToken();
+  const res = await get('/calendar/v3/users/me/calendarList?minAccessRole=reader', accessToken);
+
+  if (res.error) {
+    console.error(JSON.stringify({ error: res.error }));
+    process.exit(1);
+  }
+
+  const calendars = (res.items || []).map(c => ({
+    id: c.id,
+    summary: c.summary,
+    accessRole: c.accessRole,
+    primary: c.primary || false,
+  }));
+
+  console.log(JSON.stringify(calendars, null, 2));
+}
+
+async function listEvents(calendarId, dateISO) {
+  const accessToken = await getAccessToken();
+
+  // Full day in Europe/London — use UTC offsets for the API
+  const timeMin = new Date(dateISO + 'T00:00:00').toISOString();
+  const timeMax = new Date(dateISO + 'T23:59:59').toISOString();
+
+  const params = new URLSearchParams({
+    timeMin,
+    timeMax,
+    singleEvents: 'true',
+    orderBy: 'startTime',
+  });
+
+  const encodedId = encodeURIComponent(calendarId);
+  const res = await get(
+    `/calendar/v3/calendars/${encodedId}/events?${params}`,
+    accessToken
+  );
+
+  if (res.error) {
+    console.error(JSON.stringify({ error: res.error }));
+    process.exit(1);
+  }
+
+  const events = (res.items || []).map(e => ({
+    id: e.id,
+    summary: e.summary || '(No title)',
+    location: e.location || null,
+    start: e.start,
+    end: e.end,
+    status: e.status,
+    hangoutLink: e.hangoutLink || null,
+    description: e.description || null,
+  }));
+
+  console.log(JSON.stringify(events, null, 2));
+}
+
+async function deleteEvent(calendarId, eventId) {
+  const accessToken = await getAccessToken();
+  const encodedCalId = encodeURIComponent(calendarId);
+  await new Promise((resolve, reject) => {
+    const options = {
+      method: 'DELETE',
+      hostname: 'www.googleapis.com',
+      path: `/calendar/v3/calendars/${encodedCalId}/events/${eventId}`,
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    const req = https.request(options, (res) => {
+      res.on('data', () => {});
+      res.on('end', resolve);
+    });
+    req.on('error', reject);
+    req.end();
+  });
+  console.log(JSON.stringify({ deleted: eventId }));
+}
+
+async function createEvent(calendarId, eventData) {
+  const accessToken = await getAccessToken();
+  const encodedId = encodeURIComponent(calendarId);
+  const res = await apiPost(
+    `/calendar/v3/calendars/${encodedId}/events`,
+    eventData,
+    accessToken
+  );
+
+  if (res.error) {
+    console.error(JSON.stringify({ error: res.error }));
+    process.exit(1);
+  }
+
+  console.log(JSON.stringify({ id: res.id, summary: res.summary, start: res.start, end: res.end }, null, 2));
+}
+
+// ── Entry point ───────────────────────────────────────────────────────────────
+
+const [,, command, ...args] = process.argv;
+
+(async () => {
+  try {
+    switch (command) {
+      case 'list-calendars':
+        await listCalendars();
+        break;
+      case 'list-events':
+        await listEvents(args[0], args[1]);
+        break;
+      case 'create-event':
+        await createEvent(args[0], JSON.parse(args[1]));
+        break;
+      case 'delete-event':
+        await deleteEvent(args[0], args[1]);
+        break;
+      default:
+        console.error('Usage: calendar-api.js <list-calendars|list-events|create-event> [args...]');
+        process.exit(1);
+    }
+  } catch (err) {
+    console.error(JSON.stringify({ error: err.message }));
+    process.exit(1);
+  }
+})();

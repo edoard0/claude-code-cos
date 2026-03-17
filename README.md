@@ -142,9 +142,9 @@ For each event with a location, create up to two transit buffer events:
 - Never create a transit block that overlaps an existing event
 
 ## Configuration
-- Office address: [YOUR OFFICE ADDRESS]
-- Home address: [YOUR HOME ADDRESS]
-- Office hours: weekdays 9 AM – 5 PM (assume office as origin)
+- Office address: 240 Blackfriars Rd, London SE1 8NW
+- Home address: 5 Highbury Crescent, N5 1RN, London
+- Office hours: weekdays 9 AM – 7 PM (assume office as origin)
 - Outside office hours: assume home as origin
 ```
 

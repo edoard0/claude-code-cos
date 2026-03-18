@@ -95,9 +95,10 @@ Total block duration = transit minutes + 5.
 
 ## Step 5: Check for existing transit blocks
 
-Before creating any block, re-check the events list:
-- If a "Transit →" event already exists immediately before this event (ending within 5 min of event start), skip creating the pre-event block
-- If a "Transit →" event already exists immediately after this event, skip the post-event block
+Before creating any block, check the full event list for that day for duplicates by title:
+- If an event with the summary "Transit → [Event Name]" already exists on that day, skip creating it — do not create a duplicate regardless of timing
+- If an event with the summary "Airport — Check-in & Security" already exists on the same day as a flight event, skip creating it
+- This check runs every day across the 7-day window, so re-runs never double up blocks already created by a previous day's scan
 
 ## Step 6: Create pre-event transit block
 

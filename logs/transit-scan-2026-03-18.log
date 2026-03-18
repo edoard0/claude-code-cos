@@ -1,0 +1,29 @@
+[Wed Mar 18 05:37:29 GMT 2026] Starting transit scan
+/Users/edoardo.romani/claudeCOS/scripts/transit-scan.sh: line 17: claude: command not found
+[Wed Mar 18 09:25:15 GMT 2026] Starting transit scan
+All 7 days processed. Here is the summary:
+
+```
+Transit scan — 2026-03-18 (window: +1 to +7 days)
+Days scanned: 7
+Total events scanned: 5
+  2026-03-19: 2 events (Enchant/Google Meet, Scope AI/Google Meet)
+  2026-03-20: 1 event (Ivan/Google Meet)
+  2026-03-21: 0 events
+  2026-03-22: 3 events (Flight BA 2712 to LPA + existing COS blocks)
+  2026-03-23: 0 events
+  2026-03-24: 0 events
+  2026-03-25: 0 events
+
+Qualifying events (physical location): 0
+Transit blocks created: 0
+Skipped (virtual — Google Meet): 3
+Skipped (existing transit/airport blocks already present): 2
+  — "Transit → Flight to LPA (BA 2712)" already on 2026-03-22
+  — "Airport — Check-in & Security" already on 2026-03-22
+Skipped (flight event, blocks already created): 1
+Warnings: none
+```
+
+No new transit blocks needed — all physical events already have coverage.
+[Wed Mar 18 09:26:09 GMT 2026] Transit scan completed successfully

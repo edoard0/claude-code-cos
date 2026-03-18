@@ -14,7 +14,17 @@
       "Read(/Users/edoardo.romani/claudeCOS/**)",
       "Read(~/.config/cos/**)",
       "Write(/Users/edoardo.romani/claudeCOS/**)",
-      "Write(~/.config/cos/**)"
+      "Write(~/.config/cos/**)",
+      "Bash(launchctl unload:*)",
+      "Bash(launchctl load:*)",
+      "Read(//Users/edoardo.romani/Library/LaunchAgents/**)",
+      "Bash(cp /Users/edoardo.romani/claudeCOS/launchagents/com.cos.transit-scan.plist ~/Library/LaunchAgents/com.cos.transit-scan.plist)",
+      "Bash(cp /Users/edoardo.romani/claudeCOS/launchagents/com.cos.inbox-scan.plist ~/Library/LaunchAgents/com.cos.inbox-scan.plist)",
+      "Bash(bash /Users/edoardo.romani/claudeCOS/scripts/transit-scan.sh)",
+      "Bash(bash /Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh)"
+    ],
+    "additionalDirectories": [
+      "/Users/edoardo.romani/.claude/projects/-Users-edoardo-romani-claudeCOS/memory"
     ]
   }
 }

@@ -1,0 +1,13 @@
+[Wed Mar 18 06:12:19 GMT 2026] Starting inbox scan
+/Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh: line 19: claude: command not found
+[Wed Mar 18 09:04:29 GMT 2026] Starting inbox scan
+/Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh: line 19: claude: command not found
+[Wed Mar 18 09:25:16 GMT 2026] Starting inbox scan
+Inbox scan complete.
+
+- **Emails scanned:** 0 new since last run (2026-03-17T19:13:27Z)
+- **Actionable:** None
+- **Drafts:** None
+- **Digest written:** `digests/2026-03-18.md`
+- **State updated:** `~/.config/cos/last-inbox-scan` → `2026-03-18T09:26:31Z`
+[Wed Mar 18 09:26:35 GMT 2026] Inbox scan completed successfully

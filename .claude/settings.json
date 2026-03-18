@@ -24,7 +24,10 @@
       "Bash(git rm:*)",
       "Bash(/opt/homebrew/bin/node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js)",
       "Bash(/opt/homebrew/bin/node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Read(//Users/edoardo.romani/.claude/**)"
     ],
     "additionalDirectories": [
       "/Users/edoardo.romani/.claude/projects/-Users-edoardo-romani-claudeCOS/memory"

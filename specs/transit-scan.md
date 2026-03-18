@@ -83,7 +83,7 @@ If no prior location event exists:
 ## Step 4: Calculate transit time
 
 ```
-node /Users/edoardo.romani/claudeCOS/travel-time.js "<origin>" "<destination>"
+node /Users/edoardo.romani/claudeCOS/scripts/travel-time.js "<origin>" "<destination>"
 ```
 
 The script returns JSON: `{ minutes, display, distance }`.

@@ -1,0 +1,7 @@
+# Runtime output — not committed
+/logs/
+/digests/
+
+# Local secrets
+/keys/*
+!/keys/.gitignore

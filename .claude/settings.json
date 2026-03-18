@@ -4,7 +4,6 @@
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js*)",
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js*)",
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/travel-time.js*)",
-      "Bash(node /Users/edoardo.romani/claudeCOS/travel-time.js*)",
       "Bash(cat /Users/edoardo.romani/claudeCOS/*)",
       "Bash(cat ~/.config/cos/*)",
       "Bash(date*)",
@@ -15,13 +14,17 @@
       "Read(~/.config/cos/**)",
       "Write(/Users/edoardo.romani/claudeCOS/**)",
       "Write(~/.config/cos/**)",
-      "Bash(launchctl unload:*)",
-      "Bash(launchctl load:*)",
-      "Read(//Users/edoardo.romani/Library/LaunchAgents/**)",
+      "Bash(launchctl unload*)",
+      "Bash(launchctl load*)",
+      "Read(/Users/edoardo.romani/Library/LaunchAgents/**)",
       "Bash(cp /Users/edoardo.romani/claudeCOS/launchagents/com.cos.transit-scan.plist ~/Library/LaunchAgents/com.cos.transit-scan.plist)",
       "Bash(cp /Users/edoardo.romani/claudeCOS/launchagents/com.cos.inbox-scan.plist ~/Library/LaunchAgents/com.cos.inbox-scan.plist)",
       "Bash(bash /Users/edoardo.romani/claudeCOS/scripts/transit-scan.sh)",
-      "Bash(bash /Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh)"
+      "Bash(bash /Users/edoardo.romani/claudeCOS/scripts/inbox-scan.sh)",
+      "Bash(git rm:*)",
+      "Bash(/opt/homebrew/bin/node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js)",
+      "Bash(/opt/homebrew/bin/node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js)",
+      "Bash(git add:*)"
     ],
     "additionalDirectories": [
       "/Users/edoardo.romani/.claude/projects/-Users-edoardo-romani-claudeCOS/memory"

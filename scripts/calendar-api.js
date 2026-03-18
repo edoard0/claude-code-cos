@@ -8,56 +8,7 @@
 //   node calendar-api.js create-event <calendarId> <eventJSON>
 
 const https = require('https');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-
-const CREDENTIALS_PATH = path.join(os.homedir(), '.config', 'cos', 'gmail-credentials.json');
-const TOKEN_PATH = path.join(os.homedir(), '.config', 'cos', 'gmail-token.json');
-
-// ── Token management ────────────────────────────────────────────────────────
-
-function loadToken() {
-  return JSON.parse(fs.readFileSync(TOKEN_PATH, 'utf8'));
-}
-
-function saveToken(token) {
-  fs.writeFileSync(TOKEN_PATH, JSON.stringify(token, null, 2));
-  fs.chmodSync(TOKEN_PATH, 0o600);
-}
-
-function isExpired(token) {
-  const expiresAt = (token.obtained_at || 0) + (token.expires_in || 3600) * 1000;
-  return Date.now() > expiresAt - 5 * 60 * 1000;
-}
-
-async function refreshAccessToken(token) {
-  const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8'));
-  const { client_id, client_secret } = credentials.installed || credentials.web;
-
-  const body = new URLSearchParams({
-    client_id,
-    client_secret,
-    refresh_token: token.refresh_token,
-    grant_type: 'refresh_token',
-  }).toString();
-
-  const data = await post('oauth2.googleapis.com', '/token', body, {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  });
-
-  const newToken = { ...token, ...data, obtained_at: Date.now() };
-  saveToken(newToken);
-  return newToken;
-}
-
-async function getAccessToken() {
-  let token = loadToken();
-  if (isExpired(token)) {
-    token = await refreshAccessToken(token);
-  }
-  return token.access_token;
-}
+const { getAccessToken } = require('./google-auth');
 
 // ── HTTP helpers ─────────────────────────────────────────────────────────────
 
@@ -82,14 +33,6 @@ function get(reqPath, accessToken) {
   return request('GET', 'www.googleapis.com', reqPath, {
     Authorization: `Bearer ${accessToken}`,
   });
-}
-
-function post(hostname, reqPath, body, extraHeaders = {}) {
-  const buf = Buffer.from(body);
-  return request('POST', hostname, reqPath, {
-    'Content-Length': buf.length,
-    ...extraHeaders,
-  }, buf);
 }
 
 function apiPost(reqPath, body, accessToken) {

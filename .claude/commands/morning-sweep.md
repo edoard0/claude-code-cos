@@ -12,6 +12,9 @@ Run all of these:
 # Starred emails (manually flagged tasks)
 node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js search "is:starred"
 
+# Google Tasks (incomplete tasks)
+node /Users/edoardo.romani/claudeCOS/scripts/tasks-api.js list
+
 # Today's calendar
 node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js list-events "edo.romani1@gmail.com" "$(date +%Y-%m-%d)"
 
@@ -22,12 +25,13 @@ node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js list-events "edo.ro
 cat /Users/edoardo.romani/claudeCOS/digests/$(date +%Y-%m-%d).md 2>/dev/null || echo "No digest for today yet."
 ```
 
-**Build the task list from both sources:**
+**Build the task list from all sources:**
 - All starred emails
+- All incomplete Google Tasks (treat tasks with due date ≤ today as at least P2)
 - All P1 and P2 items from today's digest that are not already starred (check by matching sender + subject)
 - P3 and P4 digest items: include only if not already starred — list them separately at the bottom of the triage as lower-priority suggestions
 
-Deduplicate: if an email appears in both starred and the digest, count it once (use the digest priority if available).
+Deduplicate: if an email appears in both starred and the digest, count it once (use the digest priority if available). Google Tasks are separate items and do not deduplicate against emails.
 
 For each task, read the full thread if the subject alone isn't enough to classify it:
 ```bash
@@ -62,20 +66,22 @@ Show the full list in this format:
 
 ```
 MORNING SWEEP — [DATE]
-[N] starred emails • [N] events today
+[N] starred emails • [N] tasks • [N] events today
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🟢 DISPATCH
-  1. [Sender]: [Subject] — [one-line plan] → [Comms/Calendar Agent]
+  1. [email] [Sender]: [Subject] — [one-line plan] → [Comms/Calendar Agent]
 
 🟡 PREP
-  2. [Sender]: [Subject] — [what AI will draft, what you finish]
+  2. [email] [Sender]: [Subject] — [what AI will draft, what you finish]
+  3. [task] [List] → [Task title] — [what needs doing]
 
 🔴 YOURS
-  3. [Sender]: [Subject] — [why it needs you]
+  4. [email] [Sender]: [Subject] — [why it needs you]
+  5. [task] [List] → [Task title] — [why it needs you]
 
 ⚪ SKIP
-  4. [Sender]: [Subject] — [reason]
+  6. [Sender]: [Subject] — [reason]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Today: [N events summary]

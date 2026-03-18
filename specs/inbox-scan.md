@@ -33,9 +33,21 @@ For anything potentially actionable, read the full message:
 node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js read <messageId>
 ```
 
+## Step 1b: Read Google Tasks
+
+Fetch all incomplete tasks:
+
+```
+node /Users/edoardo.romani/claudeCOS/scripts/tasks-api.js list
+```
+
+Each task has: `title`, `notes`, `due` (ISO date or null), `listTitle` (which task list it belongs to).
+
+Include every incomplete task in the items to classify. A task with a `due` date today or earlier is treated as at least P2. Tasks with no due date are P3 by default unless the title/notes indicate urgency.
+
 ## Step 2: Classify
 
-An email is **actionable** if it contains any of:
+An email or task is **actionable** if it contains any of:
 - A direct question requiring an answer
 - An assigned task or deliverable
 - A scheduling request or meeting invitation
@@ -79,28 +91,33 @@ Use this format:
 # Inbox Digest — YYYY-MM-DD
 
 ## P1 — Act today
-- **[Sender name]:** [Subject] — [One sentence: what's needed and why it matters]
+- **[email]** [Sender name]: [Subject] — [One sentence: what's needed and why it matters]
   Draft created: yes / no
+- **[task]** [List name] → [Task title] — [One sentence summary]
 
 ## P2 — Soon
-- **[Sender name]:** [Subject] — [One sentence summary]
+- **[email]** [Sender name]: [Subject] — [One sentence summary]
   Draft created: yes / no
+- **[task]** [List name] → [Task title] — due [date if present]
 
 ## P3 — This week
-- **[Sender name]:** [Subject] — [One sentence summary]
+- **[email]** [Sender name]: [Subject] — [One sentence summary]
+- **[task]** [List name] → [Task title]
 
 ## P4 — When there's space
-- **[Sender name]:** [Subject] — [One sentence summary]
+- **[email]** [Sender name]: [Subject] — [One sentence summary]
+- **[task]** [List name] → [Task title]
 
 ---
 ## Run stats
 - Emails scanned: N
+- Tasks found: N
 - Actionable found: N
 - Drafts created: N
 - Last scan was: [timestamp from state file, or "first run"]
 ```
 
-If no actionable emails are found in a section, write "None."
+If no actionable items are found in a section, write "None."
 
 ## Step 5: Update state
 

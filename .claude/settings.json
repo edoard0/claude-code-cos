@@ -3,8 +3,9 @@
     "allow": [
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/gmail-api.js*)",
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/calendar-api.js*)",
+      "Bash(node /Users/edoardo.romani/claudeCOS/scripts/tasks-api.js*)",
       "Bash(node /Users/edoardo.romani/claudeCOS/scripts/travel-time.js*)",
-      "Bash(cat /Users/edoardo.romani/claudeCOS/*)",
+      "Bash(cat /Users/edoardo.romani/claudeCOS/**)",
       "Bash(cat ~/.config/cos/*)",
       "Bash(date*)",
       "Bash(for i in*)",
